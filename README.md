@@ -15,4 +15,6 @@ Tech stack: Python, pandas, Pydantic, SQLite, Matplotlib, Chart.js, HTML/CSS/Jav
 
 These are scenarios, not forecasts.
 
-I checked the 11% figure against your data: (6000 / 407.3)^(1/25) - 1 comes out to about 11.4%, so "roughly 11%" is accurate. If the platform has a character limit, tell me and I'll cut it down to 2 or 3 lines. Also tell me where you're pasting it (GitHub README, portfolio, a course submission) and I can adjust the tone.
+How to run:
+
+To view the dashboard, clone or download this repo, open the folder in VS Code, and right-click site/index.html and choose Open with Live Server. No Python is needed, since the processed data is already included in site/data.json. If you want to rebuild the data from the World Bank API, install the requirements with pip install requests pandas pydantic matplotlib, then run python etl.py followed by python export_json.py.
