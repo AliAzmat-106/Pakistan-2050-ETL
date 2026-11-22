@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pakistan in 2050 | ETL & EDA Project</title>
+  <meta name="description" content="ETL pipeline and exploratory data analysis of Pakistan's economic and population trends using World Bank data.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="brand"><span class="dot"></span>Pakistan 2050</a>
+    <nav>
+      <a href="#trends">Trends</a>
+      <a href="#ppp">Nominal vs PPP</a>
+      <a href="#compare">Compare</a>
+      <a href="#scenarios">Scenarios</a>
+      <a href="#method">Method</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="container">
+      <span class="badge">ETL + EDA Project · World Bank Open Data</span>
+      <h1>Pakistan in 2050</h1>
+      <p class="lead">An ETL and exploratory data analysis of Pakistan's economic and population trends, and how the country could compare with India, Bangladesh, China and the United States. Scenarios, not predictions.</p>
+      <div class="kpis" id="kpis"></div>
+    </div>
+  </section>
+
+  <section id="trends" class="container section">
+    <h2>Growth and population</h2>
+    <p class="sub">Is the economy growing faster than the population?</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>GDP vs population <small>(first year = 100)</small></h3>
+        <div class="chart"><canvas id="indexChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Real GDP growth vs population growth <small>(%)</small></h3>
+        <div class="chart"><canvas id="growthChart"></canvas></div>
+        <p class="note" id="growthNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="ppp" class="container section">
+    <h2>Nominal vs PPP GDP</h2>
+    <p class="sub">Same economy, two ways of measuring it.</p>
+    <div class="card">
+      <h3>Pakistan GDP <small>(US$ billion)</small></h3>
+      <div class="chart tall"><canvas id="pppChart"></canvas></div>
+      <p class="note" id="pppNote"></p>
+    </div>
+  </section>
+
+  <section id="compare" class="container section">
+    <h2>How Pakistan compares</h2>
+    <p class="sub">Pick an indicator and the countries to compare.</p>
+    <div class="card">
+      <div class="controls">
+        <select id="indicator">
+          <option value="gdp_per_capita">GDP per capita (US$)</option>
+          <option value="gdp_growth">Real GDP growth (%)</option>
+          <option value="population_growth">Population growth (%)</option>
+          <option value="population">Population</option>
+          <option value="gdp_nominal">GDP, nominal (US$)</option>
+          <option value="gdp_ppp">GDP, PPP (US$)</option>
+        </select>
+        <div class="chips" id="chips"></div>
+      </div>
+      <div class="chart tall"><canvas id="compareChart"></canvas></div>
+    </div>
+  </section>
+
+  <section id="scenarios" class="container section">
+    <h2>2050 scenarios</h2>
+    <p class="sub">Change the growth assumptions and see where Pakistan lands in 2050.</p>
+    <div class="callout" id="req"></div>
+    <div class="grid three" id="scenarioCards"></div>
+    <div class="card">
+      <h3>Pakistan GDP in 2050 <small>(US$ trillion)</small></h3>
+      <div class="chart tall"><canvas id="scenarioChart"></canvas></div>
+      <p class="note">Growth rates are nominal US$ terms. Population in 2050 is not available from the API, so population growth is an assumption.</p>
+    </div>
+  </section>
+
+  <section id="method" class="container section">
+    <h2>Method</h2>
+    <p class="sub">The pipeline behind this page.</p>
+    <div class="grid four">
+      <div class="card step"><span>01</span><h3>Extract</h3><p>World Bank Open Data API with Python <code>requests</code>. Six indicators, six economies, 2000 to latest year.</p></div>
+      <div class="card step"><span>02</span><h3>Transform</h3><p>Pydantic validates every record. Pandas cleans, fills inner gaps and derives growth and PPP ratios.</p></div>
+      <div class="card step"><span>03</span><h3>Load</h3><p>SQLite database (no server, one portable file) plus a CSV backup.</p></div>
+      <div class="card step"><span>04</span><h3>EDA</h3><p>Trends, growth vs population, nominal vs PPP, country comparison and 2050 scenarios.</p></div>
+    </div>
+    <div class="card" style="margin-top:20px">
+      <h3>Why the World Bank API?</h3>
+      <p>It is free, official and consistent across countries, and it directly supports the question about growth, population and nominal vs PPP comparison.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>Data: World Bank Open Data. Scenarios are illustrative, not forecasts.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
